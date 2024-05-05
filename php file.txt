@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Database Connection Example</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> <!-- Include Plotly library -->
+    <style>
+        /* Style for dropdown menu */
+        .dropdown-menu {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .dropdown-menu label {
+            margin-right: 5px;
+        }
+        /* Style for buttons */
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: flex-start;
+            margin-bottom: 10px;
+        }
+        .action-buttons button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .action-buttons button:hover {
+            background-color: #2980b9;
+        }
+        /* Style for selected states */
+        .selected-state {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #f2f2f2;
+            color: #333;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Form with dropdown menu to select states -->
+
+
+<h2>Step 1: Choose up to 3 States</h2>
+<h3>(choosing the same state will only get data for that singular state)</h3>
+<div class="dropdown-menu">
+    <form method="get">
+        <!-- First dropdown menu -->
+        <label for="State1">Select State 1:</label>
+        <select name="State[]" id="State1">
+            <?php
+            // Database connection parameters
+            $servername = "michaelreinheimer416.cikeys.com";
+            $username = "michaelr_Capstone_user_readOnly";
+            $password = "Capstone_user_readOnly";
+            $database = "michaelr_Capstone";
+
+            // Create connection
+            $conn = new mysqli($servername, $username, $password, $database);
+
+            // Check connection
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+
+            // Query to get distinct states from the database
+            $sql_states = "SELECT DISTINCT State AS State FROM HW_Travel_View;";
+            $result_states = $conn->query($sql_states);
+
+            // Output options for the dropdown menu
+            if ($result_states->num_rows > 0) {
+                while ($row_state = $result_states->fetch_assoc()) {
+                    $state_value = $row_state['State'];
+                    echo "<option value='$state_value'>$state_value</option>";
+                }
+            }
+
+            // Close connection
+            $conn->close();
+            ?>
+        </select>
+        
+        <!-- Second dropdown menu -->
+        <label for="State2">Select State 2:</label>
+        <select name="State[]" id="State2">
+            <?php
+            // Database connection parameters
+            $servername = "michaelreinheimer416.cikeys.com";
+            $username = "michaelr_Capstone_user_readOnly";
+            $password = "Capstone_user_readOnly";
+            $database = "michaelr_Capstone";
+
+            // Create connection
+            $conn = new mysqli($servername, $username, $password, $database);
+
+            // Check connection
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+
+            // Query to get distinct states from the database
+            $sql_states = "SELECT DISTINCT State AS State FROM HW_Travel_View;";
+            $result_states = $conn->query($sql_states);
+
+            // Output options for the dropdown menu
+            if ($result_states->num_rows > 0) {
+                while ($row_state = $result_states->fetch_assoc()) {
+                    $state_value = $row_state['State'];
+                    echo "<option value='$state_value'>$state_value</option>";
+                }
+            }
+
+            // Close connection
+            $conn->close();
+            ?>
+        </select>
+
+        <!-- Third dropdown menu -->
+        <label for="State3">Select State 3:</label>
+        <select name="State[]" id="State3">
+            <?php
+            // Database connection parameters
+            $servername = "michaelreinheimer416.cikeys.com";
+            $username = "michaelr_Capstone_user_readOnly";
+            $password = "Capstone_user_readOnly";
+            $database = "michaelr_Capstone";
+
+            // Create connection
+            $conn = new mysqli($servername, $username, $password, $database);
+
+            // Check connection
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+
+            // Query to get distinct states from the database
+            $sql_states = "SELECT DISTINCT State AS State FROM HW_Travel_View;";
+            $result_states = $conn->query($sql_states);
+
+            // Output options for the dropdown menu
+            if ($result_states->num_rows > 0) {
+                while ($row_state = $result_states->fetch_assoc()) {
+                    $state_value = $row_state['State'];
+                    echo "<option value='$state_value'>$state_value</option>";
+                }
+            }
+
+            // Close connection
+            $conn->close();
+            ?>
+        </select>
+
+        <!-- Buttons for selecting data -->
+        <h2>Step 2: Choose Data to View</h2>
+        <button type="submit" name="action" value="HW_Travel_View" style="padding: 15px 25px; background-color: #f2f2f2; color: #333; border: 2px solid #ccc; border-radius: 5px; cursor: pointer; transition: background-color 0.3s, border-color 0.3s;">View Highway Travel Data</button>
+        <button type="submit" name="action" value="HW_Infrastructure_View" style="padding: 15px 25px; background-color: #f2f2f2; color: #333; border: 2px solid #ccc; border-radius: 5px; cursor: pointer; transition: background-color 0.3s, border-color 0.3s;">View Highway Infrastructure Data</button>
+        <button type="submit" name="action" value="Travelers_View" style="padding: 15px 25px; background-color: #f2f2f2; color: #333; border: 2px solid #ccc; border-radius: 5px; cursor: pointer; transition: background-color 0.3s, border-color 0.3s;">View Driver's Demographic Data</button>
+        <button type="submit" name="action" value="Vehicles_View" style="padding: 15px 25px; background-color: #f2f2f2; color: #333; border: 2px solid #ccc; border-radius: 5px; cursor: pointer; transition: background-color 0.3s, border-color 0.3s;">View Vehicles Data</button>
+        <button type="submit" name="action" value="MotorFuel_View" style="padding: 15px 25px; background-color: #f2f2f2; color: #333; border: 2px solid #ccc; border-radius: 5px; cursor: pointer; transition: background-color 0.3s, border-color 0.3s;">View MotorFuel Data</button>
+        <button type="submit" name="action" value="Dept_View" style="padding: 15px 25px; background-color: #f2f2f2; color: #333; border: 2px solid #ccc; border-radius: 5px; cursor: pointer; transition: background-color 0.3s, border-color 0.3s;">View Dept Data</button>
+    </form>
+</div>
+
+<!-- Form with a button to return to the original page -->
+<div class="dropdown-menu">
+    <form method="get">
+        <input type="hidden" name="return" value="1">
+        <button type="submit" style="padding: 15px 25px; background-color: #f2f2f2; color: #333; border: 2px solid #ccc; border-radius: 5px; cursor: pointer; transition: background-color 0.3s, border-color 0.3s;">Return to Original Page</button>
+    </form>
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- PHP code starts here -->
+<?php
+
+$selected_state = isset($_GET['State']) ? $_GET['State'] : 'all';
+$selected_states = isset($_GET['State']) ? $_GET['State'] : array();
+
+if (empty($selected_states) || count($selected_states) > 3) {
+    // Handle error: Display a message to the user and stop execution if no states are selected or more than three states are selected
+    echo "Please select 1 to 3 states.";
+}
+
+
+// Function to perform different actions based on the button clicked
+function perform_action($action, $selected_states) {
+    // Database connection parameters
+    $servername = "michaelreinheimer416.cikeys.com";
+    $username = "michaelr_Capstone_user_readOnly";
+    $password = "Capstone_user_readOnly";
+    $database = "michaelr_Capstone";
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $database);
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    } else {
+        echo "<br>";
+    }
+
+    // Ensure $selected_state is treated as a string
+    if (is_array($selected_states)) {
+        $selected_states_str = "'" . implode("','", $selected_states) . "'"; // Convert array to string
+    } else {
+        $selected_states_str = "'" . $selected_states . "'"; // Use the original value if it's already a string
+    }
+
+    // Perform different actions based on the value of $action
+    switch ($action) {
+        case 'HW_Infrastructure_View':
+            // Query and display HW Infrastructure View
+            $sql_info = "SELECT * FROM HW_Infrastructure_View WHERE State IN ($selected_states_str)";
+            break;
+        case 'HW_Travel_View':
+            // Query and display HW Travel View
+            $sql_info = "SELECT * FROM HW_Travel_View WHERE State IN ($selected_states_str)";
+            break;
+        case 'Travelers_View':
+            // Query and display Travelers View
+            $sql_info = "SELECT * FROM Travelers_View WHERE State IN ($selected_states_str)";
+            break;
+        case 'Vehicles_View':
+            // Query and display Vehicles View
+            $sql_info = "SELECT * FROM Vehicles_View WHERE State IN ($selected_states_str)";
+            break;
+        case 'MotorFuel_View':
+            // Query and display MotorFuel View
+            $sql_info = "SELECT * FROM MotorFuel_View WHERE State IN ($selected_states_str)";
+            break;
+        case 'Dept_View':
+            // Query and display Dept View
+            $sql_info = "SELECT * FROM Dept_View WHERE State IN ($selected_states_str)";
+            break;
+        default:
+            echo "Invalid action";
+            break;
+    }
+
+    // Execute the SQL query
+    $result = $conn->query($sql_info);
+
+    // Display single table for all selected states
+    display_table($result, $selected_states);
+
+    // Generate charts for each state
+    foreach ($selected_states as $selected_state) {
+        $result->data_seek(0); // Reset result pointer to beginning
+        $state_result = new mysqli($servername, $username, $password, $database); // New connection for each state
+        $state_sql_info = str_replace('IN (' . $selected_states_str . ')', "= '$selected_state'", $sql_info); // Modify SQL query for each state
+        $state_query_result = $state_result->query($state_sql_info); // Execute modified query for each state
+        display_chart($state_query_result, $selected_state, $action); // Display chart for each state
+        $state_result->close(); // Close connection for each state
+    }
+    if(count($selected_states) != 1)
+    {
+        display_combined_chart($result, $selected_states, $action);
+    }
+
+
+    // Close connection
+    $conn->close();
+}
+
+function display_table($result, $selected_states) {
+    // Set the number of records per page
+    $records_per_page = 10;
+
+    // Count total records
+    $total_records = $result->num_rows;
+
+    // Calculate total pages
+    $total_pages = ceil($total_records / $records_per_page);
+
+    // Get current page number from URL, or default to 1
+    $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+    // Calculate the starting record for the current page
+    $start = ($current_page - 1) * $records_per_page;
+
+    // Move result pointer to the starting record
+    $result->data_seek($start);
+
+    // Display table header
+    echo "<div style='max-width: 1500px; margin: auto; overflow-x: auto;'>"; // Opening div for table container
+    echo "<table style='text-align: center; border-collapse: collapse;'>"; // Table style
+    echo "<caption style='font-weight: bold; text-align: center; font-size: 40px;'>Combined Table for " . implode(" and ", $selected_states) . "</caption>"; // Updated caption with selected states
+
+    // Output column headers dynamically
+    echo "<tr>";
+    while ($row = $result->fetch_assoc()) {
+        foreach ($row as $key => $value) {
+            echo "<th style='padding: 10px; border: 1px solid black;'>" . $key . "</th>";
+        }
+        break; // Break after the first row to avoid repeating column headers
+    }
+    echo "</tr>";
+
+    // Output data rows
+    $count = 0;
+    while ($row = $result->fetch_assoc()) {
+        echo "<tr>";
+        foreach ($row as $value) {
+            echo "<td style='padding: 10px; border: 1px solid black;'>" . $value . "</td>";
+        }
+        echo "</tr>";
+        $count++;
+        if ($count >= $records_per_page) {
+            break; // Break after displaying the specified number of records per page
+        }
+    }
+
+    echo "</table>";
+    // Pagination buttons and jump menu
+    echo "<br>";
+    echo "<div style='text-align: center;'>";
+    // Previous button
+    if ($current_page > 1) {
+        echo "<a href='?page=" . ($current_page - 1) . "&State=" . urlencode(implode(',', $selected_states)) . "'>&#8592; Previous</a> ";
+    }
+    // Next button
+    if ($current_page < $total_pages) {
+        echo "<a href='?page=" . ($current_page + 1) . "&State=" . urlencode(implode(',', $selected_states)) . "'>Next &#8594;</a> ";
+    }
+
+    // Display current range
+    echo "Showing " . ($start + 1) . " to " . min(($start + $records_per_page), $total_records) . " of $total_records entries";
+    // Jump menu
+    echo "<br><br>";
+    echo "Jump to: ";
+    echo "<select onchange='location = this.value;'>";
+    for ($i = 0; $i < $total_records; $i += $records_per_page) {
+        echo "<option value='?page=" . (($i / $records_per_page) + 1) . "'>" . ($i + 1) . " to " . min(($i + $records_per_page), $total_records) . "</option>";
+    }
+    echo "</select>";
+    echo "</div>";
+    echo "</div>"; // Closing div for table container
+}
+
+
+
+function display_chart($result, $selected_state, $action) {
+    // Generate data for Plotly chart
+    $data = array();
+    $columns = $result->fetch_fields();
+
+    foreach ($columns as $column) {
+        if ($column->type == 3 && $column->name != 'Year' && $column->name != 'State') { // Check if the column type is numeric and not year or state
+            $columnData = array(
+                'x' => array(), // Initialize x array
+                'y' => array(), // Initialize y array
+                'name' => $column->name // Set column name
+            );
+
+            $result->data_seek(0);
+            while ($row = $result->fetch_assoc()) {
+                if (!isset($row['Year']) || !isset($row[$column->name]) || $row['State'] != $selected_state) {
+                    continue; // Skip rows with missing data or not matching selected state
+                }
+                $columnData['x'][] = $row['Year']; // Populate x array with year values
+                $columnData['y'][] = $row[$column->name]; // Populate y array with corresponding values
+            }
+
+            $data[] = $columnData; // Add column data to main data array
+        }
+    }
+
+    // Modify column names to replace underscores with spaces
+    foreach ($data as &$columnData) {
+        $columnData['name'] = ucfirst(str_replace('_', ' ', $columnData['name']));
+    }
+
+    // Generate unique ID for Plotly chart
+    $chart_id = 'plotlyChart_' . uniqid();
+
+    // Generate Plotly chart with a container div
+    echo "<div class='chart-container' style='max-width: 1500px; margin: 20px auto;'>"; // Added margin for spacing
+    echo "<div id='{$chart_id}' style='width: 1500px; height: 800px; margin: auto;'></div>"; 
+    echo "</div>"; // Closing div for chart container
+
+    // Add CSS for spacing between charts
+    echo "<style>.chart-container { margin-bottom: 40px; }</style>";
+
+    // JavaScript for Plotly chart
+    echo "<script>";
+    echo "var data = " . json_encode($data) . ";";
+    echo "var layout = {";
+    echo "title: '<span style=\"font-weight: bold; font-size: larger;\">" . ucfirst(str_replace('_', ' ', $action)) . " from the state of " . ucfirst(str_replace('_', ' ', $selected_state)) . " Chart</span>',";
+    echo "xaxis: {title: 'Year'},";
+    echo "yaxis: {title: 'Value'},";
+    echo "};";
+    echo "Plotly.newPlot('{$chart_id}', data, layout);";
+    echo "</script>";
+}
+
+function display_combined_chart($result, $selected_states, $action) {
+    // Initialize an array to store data for all selected states
+    $all_states_data = array();
+
+    // Loop through each selected state
+    foreach ($selected_states as $selected_state) {
+        // Generate data for Plotly chart for the current state
+        $data = array();
+        $columns = $result->fetch_fields();
+
+        foreach ($columns as $column) {
+            if ($column->type == 3 && $column->name != 'Year' && $column->name != 'State') {
+                $columnData = array(
+                    'x' => array(),
+                    'y' => array(),
+                    'name' => ucfirst($selected_state) . ": " . $column->name // Label each line with the state and column name
+                );
+
+                $result->data_seek(0);
+                while ($row = $result->fetch_assoc()) {
+                    if (!isset($row['Year']) || !isset($row[$column->name]) || $row['State'] != $selected_state) {
+                        continue;
+                    }
+                    $columnData['x'][] = $row['Year'];
+                    $columnData['y'][] = $row[$column->name];
+                }
+
+                $data[] = $columnData;
+            }
+        }
+
+        // Add data for the current state to the array for all states
+        $all_states_data = array_merge($all_states_data, $data);
+    }
+
+    // Generate unique ID for the combined chart
+    $combined_chart_id = 'combinedChart_' . uniqid();
+
+    // Generate Plotly chart for combined data with a container div
+    echo "<div class='chart-container' style='max-width: 1500px; margin: 20px auto;'>"; // Added margin for spacing
+    echo "<div id='{$combined_chart_id}' style='width: 1500px; height: 800px; margin: auto;'></div>"; 
+    echo "</div>"; // Closing div for chart container
+
+    // Add CSS for spacing between charts
+    echo "<style>.chart-container { margin-bottom: 40px; }</style>";
+
+    // JavaScript for Plotly chart
+    echo "<script>";
+    echo "var data = " . json_encode($all_states_data) . ";";
+    echo "var layout = {";
+    echo "title: '<span style=\"font-weight: bold; font-size: larger;\">Combined Chart for " . implode(" and ", $selected_states) . "</span>',"; // Include selected states in the title
+    echo "xaxis: {title: 'Year'},";
+    echo "yaxis: {title: 'Value'},";
+    echo "};";
+    echo "Plotly.newPlot('{$combined_chart_id}', data, layout);";
+    echo "</script>";
+}
+
+
+
+
+
+
+
+
+// Check if a button is clicked
+if (isset($_GET['action'])) {
+    // Loop through each selected state
+    if (isset($_GET['State'])) {
+        $selected_states = $_GET['State'];
+        $selected_states = array_unique($selected_states);
+        perform_action($_GET['action'], $selected_states);
+        
+    } else {
+        echo "No states selected.";
+    }
+}
+?>
+
+</body>
+</html>
